@@ -1,7 +1,7 @@
 # GAMBA
 
 GAMBA is a tool for the simplification of mixed Boolean-arithmetic expressions (MBAs). 
-GAMBA is short for 
+GAMBA is short for General Advanced Mixed Boolean Arithmetic simplifier.
 It uses the linear algebraic simplifier [SiMBA](https://github.com/DenuvoSoftwareSolutions/SiMBA) to iteratively 
 simplify linear subexpressions of a potentially nonlinear input MBA. Overall, its core ingredients are the following:
 
@@ -20,7 +20,8 @@ GAMBA is based on the following [paper](paper/paper.pdf), see also the [slides](
     month = jul,
     publisher = {IEEE},
     howpublished = {https://arxiv.org/abs/2305.06763},
-    booktitle = {Proceedings of the 2nd Workshop on Robust Malware Analysis, WORMA'23, co-located with the 8th IEEE European Symposium on Security and Privacy}
+    booktitle = {Proceedings of the 2nd Workshop on Robust Malware Analysis, WORMA'23, 
+                 co-located with the 8th IEEE European Symposium on Security and Privacy}
 }
 </pre>
 
@@ -125,12 +126,12 @@ The expressions are categorized depending on the simplification or verification 
 
 Datasets can be found in the directory <code>experiments/datasets/</code>.
 
-- neureduce.txt: Use -d 0; from https://github.com/fvrmatteo/NeuReduce.git:dataset/linear/test/test_data.csv (with some fixes applied)
-- mba_obf_linear.txt: Use -d 1; from https://github.com/nhpcc502/MBA-Obfuscator.git:samples/ground.linear.poly.txt (1000 linear expressions)
-- mba_obf_nonlinear.txt: Use - 2; from https://github.com/nhpcc502/MBA-Obfuscator.git:samples/ground.linear.poly.txt and samples/ground.linear.nonpoly.txt (500 expressions each; with some fixes for nonpolynomial expressions)
+- neureduce.txt: Use -d 0; from https://github.com/fvrmatteo/NeuReduce/tree/master/dataset/linear/test/test_data.csv (with some fixes applied)
+- mba_obf_linear.txt: Use -d 1; from https://github.com/nhpcc502/MBA-Obfuscator/tree/master/samples/ground.linear.poly.txt (1000 linear expressions)
+- mba_obf_nonlinear.txt: Use - 2; from https://github.com/nhpcc502/MBA-Obfuscator/tree/master/samples/ground.linear.poly.txt and https://github.com/nhpcc502/MBA-Obfuscator/tree/master/samples/ground.linear.nonpoly.txt (500 expressions each; with some fixes for nonpolynomial expressions)
 - syntia.txt: Use -d 3; from MBA-Flatten, dataset/dataset_syntia.txt
 - mba_flatten.txt: Use -d 4; from MBA-Flatten, first 1000 expressions from dataset/pldi_dataset_linear_MBA.txt, dataset/pldi_dataset_poly_MBA.txt, dataset/pldi_dataset_nonpoly_MBA.txt
-- qsynth_ea.txt: Use -d 5; from https://github.com/werew/qsynth-artifacts.git:datasets/syntia/ground_truth.json
+- qsynth_ea.txt: Use -d 5; from https://github.com/werew/qsynth-artifacts/tree/master/datasets/syntia/ground_truth.json
 
 ## Format of MBAs
 
@@ -149,16 +150,15 @@ The following operators are supported, ordered by their precedence in Python:
 - $*$: product
 - $+$, $-$: sum and difference
 - <<: left shift
-- $\&$: conjunction
+- $\amp;$: conjunction
 - $\mathbin{^\wedge}$: exclusive disjunction
 - $|$: inclusive disjunction
 
 Whitespace can be used in the input expressions. E.g., the expression <code>"x+y"</code> may alternatively be written <code>"x + y"</code>.
 
-> Please respect the precedence of operators and use parentheses if necessary! E.g., the expressions _$1 + (x|y)$_ and _$1 + x|y$_ are not equivalent since $+$ has a higher precedence than $|$. Note that the latter is not even a linear MBA.
+> Please respect the precedence of operators and use parentheses if necessary! E.g., the expressions $1 + (x|y)$ and $1 + x|y$ are not equivalent since $+$ has a higher precedence than $|$. Note that the latter is not even a linear MBA.
 
 ## Dependencies
-
 
 ### Z3
 
