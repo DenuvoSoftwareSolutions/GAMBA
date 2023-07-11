@@ -27,7 +27,8 @@ datasets = [
     DataSet('mba_obf_nonlinear.txt'),   # 2
     DataSet('syntia.txt'),              # 3
     DataSet('mba_flatten.txt'),         # 4
-    DataSet('qsynth_ea.txt')            # 5
+    DataSet('qsynth_ea.txt'),           # 5
+    DataSet('bonus/loki_tiny.txt')      # 6
 ]
 
 def classify_dataset(fname, bitCount=64, types=[]):

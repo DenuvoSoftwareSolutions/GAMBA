@@ -133,6 +133,9 @@ Datasets for use with <code>experiments/tests.py</code> can be found in the dire
 - mba_flatten.txt: Use option <code>-d 4</code>; from MBA-Flatten, first 1000 expressions from dataset/pldi_dataset_linear_MBA.txt, dataset/pldi_dataset_poly_MBA.txt, dataset/pldi_dataset_nonpoly_MBA.txt
 - qsynth_ea.txt: Use option <code>-d 5</code>; from https://github.com/werew/qsynth-artifacts/tree/master/datasets/syntia/ground_truth.json
 
+Additionally, the following bonus datasets are provided in the directory <code>experiments/datasets/bonus/</code> (not covered in the publication):
+- loki_tiny.txt: Use option <code>-d 6</code>; from https://github.com/RUB-SysSec/loki/tree/main/experiments/experiment_10_mba_formula/data, generated MBAs from the [LOKI](https://github.com/RUB-SysSec/loki) paper, up to depth 5
+
 ## Format of MBAs
 
 The number of variables is in theory unbounded, but of course the runtime increases with variable count. There is no strong restriction on the notation of variables. They have to start with a letter and can contain letters, numbers and underscores. E.g., the following variable names would all be fine:
