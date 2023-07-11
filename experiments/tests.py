@@ -56,7 +56,7 @@ def check_print_error(ex, verbosity, idx, lineno, expr):
             traceback.print_tb(ex.__traceback__)
 
 def process_dataset(fname, bitCount=64, mode=Mode.GENERAL, verbosity=0, limit=-1, check=False, useZ3=False):
-    f = open(os.path.join("datasets", fname), 'rt')
+    f = open(os.path.join(currentdir, "datasets", fname), 'rt')
     
     lineno = 0 # line number in file
     ok = 0     # expected results (completely equal to ground truth)
@@ -315,7 +315,7 @@ if __name__ == "__main__":
 
     for ds in datasets:
         if classify:
-            path = os.path.join("datasets", ds.fname)
+            path = os.path.join(currentdir, "datasets", ds.fname)
             count, linear, nonlinear, mixed, bitwise, vnumber_min, vnumber_max, vnumber_avg, alt_min, alt_max, alt_avg, strlen_min, strlen_max, strlen_avg, nodes_min, nodes_max, nodes_avg = classify_dataset(path, ds.bitCount)
             print('------------- %s: %d bitwise, %d linear, %d nonlinear, %d mixed / %d (%d to %d vars, %d to %d nodes / %2.f, %d to %d alt / %.2f)' % (ds, bitwise, linear, nonlinear, mixed, count, vnumber_min, vnumber_max, nodes_min, nodes_max, nodes_avg, alt_min, alt_max, alt_avg))
         else:
