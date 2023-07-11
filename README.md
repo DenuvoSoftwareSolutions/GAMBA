@@ -171,6 +171,7 @@ Installing Z3:
 ### NumPy
 
 The scientific computing package **NumPy** is required due to lazyness, but not really essential for the operation.
+Note: at least version 1.15.0 is required for numpy.quantile
 
 Installing NumPy:
 - from  the Github repository: https://github.com/numpy/numpy.git
