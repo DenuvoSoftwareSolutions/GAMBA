@@ -124,14 +124,14 @@ The expressions are categorized depending on the simplification or verification 
 
 ### Datasets
 
-Datasets can be found in the directory <code>experiments/datasets/</code>.
+Datasets for use with <code>experiments/tests.py</code> can be found in the directory <code>experiments/datasets/</code>.
 
-- neureduce.txt: Use -d 0; from https://github.com/fvrmatteo/NeuReduce/tree/master/dataset/linear/test/test_data.csv (with some fixes applied)
-- mba_obf_linear.txt: Use -d 1; from https://github.com/nhpcc502/MBA-Obfuscator/tree/main/samples/ground.linear.poly.txt (1000 linear expressions)
-- mba_obf_nonlinear.txt: Use - 2; from https://github.com/nhpcc502/MBA-Obfuscator/tree/main/samples/ground.linear.poly.txt and https://github.com/nhpcc502/MBA-Obfuscator/tree/master/samples/ground.linear.nonpoly.txt (500 expressions each; with some fixes for nonpolynomial expressions)
-- syntia.txt: Use -d 3; from MBA-Flatten, dataset/dataset_syntia.txt
-- mba_flatten.txt: Use -d 4; from MBA-Flatten, first 1000 expressions from dataset/pldi_dataset_linear_MBA.txt, dataset/pldi_dataset_poly_MBA.txt, dataset/pldi_dataset_nonpoly_MBA.txt
-- qsynth_ea.txt: Use -d 5; from https://github.com/werew/qsynth-artifacts/tree/master/datasets/syntia/ground_truth.json
+- neureduce.txt: Use option <code>-d 0</code>; from https://github.com/fvrmatteo/NeuReduce/tree/master/dataset/linear/test/test_data.csv (with some fixes applied)
+- mba_obf_linear.txt: Use option <code>-d 1</code>; from https://github.com/nhpcc502/MBA-Obfuscator/tree/main/samples/ground.linear.poly.txt (1000 linear expressions)
+- mba_obf_nonlinear.txt: Use option <code>-d 2</code>; from https://github.com/nhpcc502/MBA-Obfuscator/tree/main/samples/ground.linear.poly.txt and https://github.com/nhpcc502/MBA-Obfuscator/tree/master/samples/ground.linear.nonpoly.txt (500 expressions each; with some fixes for nonpolynomial expressions)
+- syntia.txt: Use option <code>-d 3</code>; from MBA-Flatten, dataset/dataset_syntia.txt
+- mba_flatten.txt: Use option <code>-d 4</code>; from MBA-Flatten, first 1000 expressions from dataset/pldi_dataset_linear_MBA.txt, dataset/pldi_dataset_poly_MBA.txt, dataset/pldi_dataset_nonpoly_MBA.txt
+- qsynth_ea.txt: Use option <code>-d 5</code>; from https://github.com/werew/qsynth-artifacts/tree/master/datasets/syntia/ground_truth.json
 
 ## Format of MBAs
 
