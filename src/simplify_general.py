@@ -629,7 +629,8 @@ class GeneralSimplifier():
 
 
     # Simplify the given MBA.
-    def __simplify(self, expr, returnDict):
+    # Note: only one underscore, for MacOS support, see https://github.com/DenuvoSoftwareSolutions/GAMBA/issues/1
+    def _simplify(self, expr, returnDict):
         root = parse(expr, self.__bitCount, self.__modRed, True, True)
         if root == None: sys.exit("Error: Could not parse expression!")
 
@@ -642,7 +643,7 @@ class GeneralSimplifier():
     def simplify(self, expr, useZ3=False):
         manager = multiprocessing.Manager()
         returnDict = manager.dict()
-        p = multiprocessing.Process(target=self.__simplify, args=(expr, returnDict))
+        p = multiprocessing.Process(target=self._simplify, args=(expr, returnDict))
         p.start()
         # Wait for 30 seconds or until process finishes
         p.join(30)
