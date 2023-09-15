@@ -328,6 +328,7 @@ class GeneralSimplifier():
                 return False
         else:
             if node.children[0].type == NodeType.CONSTANT and node.children[1].type == NodeType.POWER:
+                if len(node.children) > 2: return False
                 return self.__is_candidate_for_simplification_in_sum(node.children[1])
             if node.has_nonlinear_child(): return False
 
