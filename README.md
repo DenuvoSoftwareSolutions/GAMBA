@@ -14,7 +14,7 @@ simplify linear subexpressions of a potentially nonlinear input MBA. Overall, it
 GAMBA is based on the following [paper](paper/paper.pdf), see also the [slides](slides/slides.pdf) used for presentation:
 <pre>@inproceedings{gamba2023,
     author = {Reichenwallner, Benjamin and Meerwald-Stadler, Peter},
-    title = {Simplification of General Mixed Boolean-Arithmetic Expressions: GAMBA},
+    title = {Simplification of General Mixed Boolean-Arithmetic Expressions: {GAMBA}},
     address = {Delft, The Netherlands},
     year = {2023},
     month = jul,
