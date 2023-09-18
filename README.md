@@ -19,6 +19,8 @@ GAMBA is based on the following [paper](paper/paper.pdf), see also the [slides](
     year = {2023},
     month = jul,
     publisher = {IEEE},
+    pages = {427--438},
+    doi = {10.1109/EuroSPW59978.2023.00053},
     howpublished = {https://arxiv.org/abs/2305.06763},
     booktitle = {Proceedings of the 2nd Workshop on Robust Malware Analysis, WORMA'23, 
                  co-located with the 8th IEEE European Symposium on Security and Privacy}
