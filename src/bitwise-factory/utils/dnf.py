@@ -74,6 +74,10 @@ class Dnf():
                     self.primes.append(impl)
 
         self.__groups = newGroups
+        # The only group which may vanish is the last one, since it was not
+        # empty before and its elements can only be merged into the second-last
+        # group.
+        if len(self.__groups[-1]) == 0: del self.__groups[-1]
         return changed
 
     # Try to merge implicants iteratively until nothing can be merged any more.
