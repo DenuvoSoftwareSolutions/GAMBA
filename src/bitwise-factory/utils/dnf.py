@@ -33,15 +33,19 @@ class Dnf():
     def __init_groups(self, vnumber, vec):
         assert(len(vec) == 2**vnumber)
 
-        self.__groups = [[] for i in range(vnumber + 1)]
+        self.__groups = [dict() for i in range(vnumber + 1)]
         for i in range(len(vec)):
             bit = vec[i]
 
             if bit == 0: continue
             assert(bit == 1)
 
+            impl = Implicant(vnumber, i)
             onesCnt = popcount(i)
-            self.__groups[onesCnt].append(Implicant(vnumber, i))
+            group = self.__groups[onesCnt]
+
+            if "0" in group: group["0"].append(impl)
+            else: group["0"] = [impl]
 
     # Try to merge implicants (i.e., vector representations of conjunctions)
     # whose vectors differ in just one position. Note that, e.g., the
@@ -49,7 +53,7 @@ class Dnf():
     # "z" has no influence on its values."
     def __merge_step(self):
         changed = False
-        newGroups = [[] for g in self.__groups]
+        newGroups = [dict() for g in self.__groups]
 
         for onesCnt in range(len(self.__groups)):
             group = self.__groups[onesCnt]
@@ -57,21 +61,32 @@ class Dnf():
             if onesCnt < len(self.__groups) - 1:
                 nextGroup = self.__groups[onesCnt + 1]
 
-                for impl1 in group:
-                    for impl2 in nextGroup:
-                        newImpl = impl1.try_merge(impl2)
-                        # Could not merge the implicants.
-                        if newImpl == None: continue
+                # Iterate over hashes of indifferent positions.
+                for h in group:
+                    # The next group has no implicants with coincident
+                    # indifferent positions.
+                    if h not in nextGroup: continue
 
-                        changed = True
-                        impl1.obsolete = True
-                        impl2.obsolete = True
+                    for impl1 in group[h]:
+                        for impl2 in nextGroup[h]:
+                            newImpl = impl1.try_merge(impl2)
+                            # Could not merge the implicants.
+                            if newImpl == None: continue
 
-                        newGroups[newImpl.count_ones()].append(newImpl)
+                            changed = True
+                            impl1.obsolete = True
+                            impl2.obsolete = True
 
-            for impl in group:
-                if not impl.obsolete:
-                    self.primes.append(impl)
+                            newGroup = newGroups[newImpl.count_ones()]
+                            newH = newImpl.get_indifferent_hash()
+
+                            if newH in newGroup: newGroup[newH].append(newImpl)
+                            else: newGroup[newH] = [newImpl]
+
+            for h in group:
+                for impl in group[h]:
+                    if not impl.obsolete:
+                        self.primes.append(impl)
 
         self.__groups = newGroups
         # The only group which may vanish is the last one, since it was not

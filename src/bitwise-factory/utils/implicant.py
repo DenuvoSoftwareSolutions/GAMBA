@@ -63,6 +63,19 @@ class Implicant():
 
         return newImpl
 
+    # Get a number that uniquely identifies the indifferent positions, i.e.,
+    # the positions for which either 0 or 1 would fit.
+    def get_indifferent_hash(self):
+        h = 0
+        n = 1
+
+        for i in range(len(self.vec)):
+            # The position is indifferent.
+            if not self.vec[i]: h += n
+            n << 1
+
+        return h
+
     # Create an abstract syntax tree structure corresponding to this implicant.
     def to_bitwise(self):
         root = Bitwise(BitwiseType.CONJUNCTION)
