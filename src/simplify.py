@@ -9,6 +9,7 @@ import sys
 import traceback
 try: import z3
 except ModuleNotFoundError: pass
+import argparse
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 sys.path.insert(0, os.path.join(currentdir, "bitwise-factory"))
@@ -1293,83 +1294,34 @@ def simplify_linear_mba(expr, bitCount, useZ3, checkLinear=False, modRed=False,
 
     simpl = simplifier.simplify(useZ3)
     return simpl
-
-
-# Print options.
-def print_usage():
-    print("Usage: python3 simplify.py")
-    print("Each command line input not preceded by option indicators below is considered an expression to be simplified.")
-    print("Command line options:")
-    print("    -h:    print usage")
-    print("    -b:    specify the bit number of variables (default is 64)")
-    print("    -z:    enable a check for valid simplification using Z3")
-    print("    -l:    enable a check for input expressions being linear MBAs")
-    print("    -m:    enable a reduction of all constants modulo 2**b where b is the bit count")
-    print("    -c:    only use conjunctions in the output, i.e., do not refine")
-    print("    -d:    specify decision metric: 0 (default): MBA alternation / 1: term count")
-    print("    -v:    specify a bit count for verification for nonlinear input (default: no verification)")
-
-
 if __name__ == "__main__":
-    argc = len(sys.argv)
-    bitCount = 64
-    useZ3 = False
-    checkLinear = False
-    modRed = False
-    refine = True
-    metric = Metric.ALTERNATION
-    verifBitCount = None
-    expressions = []
+    parser = argparse.ArgumentParser(prog='GAMBA',description='Simplification of General Mixed Boolean-Arithmetic Expressions')
+    # print("    -v:    specify a bit count for verification for nonlinear input (default: no verification)")
+    parser.add_argument("-b",default=64,dest="bitCount",help="Specify the bit number of variables",type=int)
+    parser.add_argument("-z",default=False,dest="useZ3",help="Enable a check for valid simplification using Z3",type=bool)
+    parser.add_argument("-l",default=False,dest="checkLinear",help="Enable a check for input expressions being linear MBAs",type=bool)
+    parser.add_argument("-m",default=False,dest="modRed",help="Enable a reduction of all constants modulo 2**b where b is the bit count",type=bool)
+    parser.add_argument("-c",default=False,dest="refine",help="Only use conjunctions in the output, i.e., do not refine",type=bool)
+    parser.add_argument("-d",choices=["ALTERNATION","TERMS","STRING","BITWISE_NODES"],default="ALTERNATION",dest="metric",help="Specify decision metric")
+    parser.add_argument("-v",default=None,dest="verifyBitCount",help="Specify a bit count for verification for nonlinear input",type=int)
+    parser.add_argument('exprs', nargs='*',type=str)
+    args = parser.parse_args()
 
-    i = 0
-    while i < argc - 1:
-        i = i + 1
+    if len(args.exprs) == 0:
+        args.exprs.extend(sys.stdin.readlines())
+    metric = None
+    if args.metric == "ALTERNATION":
+        metric = Metric.ALTERNATION
+    elif args.metric == "TERMS":
+        metric = Metric.TERMS
+    elif args.metric == "STRING":
+        metric = Metric.STRING
+    else:
+        metric = Metric.BITWISE_NODES
 
-        if sys.argv[i] == "-h":
-            print_usage()
-            sys.exit(0)
-
-        elif sys.argv[i] == "-b":
-            i = i + 1
-            if i == argc:
-                print_usage()
-                sys.exit("Error: No bit count given!")
-
-            bitCount = int(sys.argv[i])
-
-        elif sys.argv[i] == "-z": useZ3 = True
-        elif sys.argv[i] == "-l": checkLinear = True
-        elif sys.argv[i] == "-m": modRed = True
-        elif sys.argv[i] == "-c": refine = False
-
-        elif sys.argv[i] == "-d":
-            i = i + 1
-            if i == argc:
-                print_usage()
-                sys.exit("Error: No decision metric given!")
-
-            m = int(sys.argv[i])
-            if m < 0 or m >= int(Metric._COUNT):
-                sys.exit("Error: Invalid value for metric: " + str(m))
-
-            metric = Metric(m)
-
-        elif sys.argv[i] == "-v":
-            i = i + 1
-            if i == argc:
-                print_usage()
-                sys.exit("Error: No bit count for verification given!")
-
-            verifBitCount = int(sys.argv[i])
-
-        else: expressions.append(sys.argv[i])
-
-    if len(expressions) == 0:
-        sys.exit("No expressions to simplify given!")
-
-    for expr in expressions:
+    for expr in args.exprs:
         print("*** Expression " + expr)
-        simpl = simplify_linear_mba(expr, bitCount, useZ3, checkLinear, modRed, refine, verifBitCount, metric)
+        simpl = simplify_linear_mba(expr, args.bitCount, args.useZ3, args.checkLinear, args.modRed, args.refine, args.verifyBitCount, metric)
         if simpl != "": print("*** ... simplified to " + simpl)
         else: print("*** ... not simplified correctly")
 
