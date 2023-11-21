@@ -1309,7 +1309,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if len(args.exprs) == 0:
-        args.exprs.extend(sys.stdin.readlines())
+        args.exprs.extend(sys.stdin.read().splitlines())
 
     metric = None
     if args.metric == "ALTERNATION":
