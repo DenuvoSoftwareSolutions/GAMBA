@@ -1294,21 +1294,23 @@ def simplify_linear_mba(expr, bitCount, useZ3, checkLinear=False, modRed=False,
 
     simpl = simplifier.simplify(useZ3)
     return simpl
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(prog='GAMBA',description='Simplification of General Mixed Boolean-Arithmetic Expressions')
-    # print("    -v:    specify a bit count for verification for nonlinear input (default: no verification)")
-    parser.add_argument("-b",default=64,dest="bitCount",help="Specify the bit number of variables",type=int)
-    parser.add_argument("-z",default=False,dest="useZ3",help="Enable a check for valid simplification using Z3",type=bool)
-    parser.add_argument("-l",default=False,dest="checkLinear",help="Enable a check for input expressions being linear MBAs",type=bool)
-    parser.add_argument("-m",default=False,dest="modRed",help="Enable a reduction of all constants modulo 2**b where b is the bit count",type=bool)
-    parser.add_argument("-c",default=False,dest="refine",help="Only use conjunctions in the output, i.e., do not refine",type=bool)
-    parser.add_argument("-d",choices=["ALTERNATION","TERMS","STRING","BITWISE_NODES"],default="ALTERNATION",dest="metric",help="Specify decision metric")
-    parser.add_argument("-v",default=None,dest="verifyBitCount",help="Specify a bit count for verification for nonlinear input",type=int)
-    parser.add_argument('exprs', nargs='*',type=str)
+    parser = argparse.ArgumentParser(prog='GAMBA', description='Simplification of linear Mixed Boolean-Arithmetic Expressions', epilog='Each command line input not preceded by option indicators is considered an expression to be simplified. Expressions are read from standard input if none are given on command line.')
+    parser.add_argument("-b", default=64, dest="bitCount", help="Specify the bit number of variables", type=int)
+    parser.add_argument("-z", default=False, dest="useZ3", help="Enable a check for valid simplification using Z3", type=bool)
+    parser.add_argument("-l", default=False, dest="checkLinear", help="Enable a check for input expressions being linear MBAs", type=bool)
+    parser.add_argument("-m", default=False, dest="modRed", help="Enable a reduction of all constants modulo 2**b where b is the bit count", type=bool)
+    parser.add_argument("-c", default=True, dest="refine", help="Only use conjunctions in the output, i.e., do not refine", type=bool)
+    parser.add_argument("-d", choices=["ALTERNATION","TERMS","STRING","BITWISE_NODES"], default="ALTERNATION", dest="metric", help="Specify decision metric")
+    parser.add_argument("-v", default=None, dest="verifyBitCount", help="Specify a bit count for verification for nonlinear input", type=int)
+    parser.add_argument('exprs', nargs='*', type=str)
     args = parser.parse_args()
 
     if len(args.exprs) == 0:
         args.exprs.extend(sys.stdin.readlines())
+
     metric = None
     if args.metric == "ALTERNATION":
         metric = Metric.ALTERNATION
